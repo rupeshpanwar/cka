@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  nodeport-serv
+spec:
+  selector:
+    name:  myapp
+  type:  NodePort
+  ports:
+  - name:  nodeport
+    port:  80
+    targetPort:  4000

@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  cluster-ip-serv
+spec:
+  selector:
+    name:  myapp
+  type:  ClusterIP
+  ports:
+  - name:  clusterip
+    port:  4000
+    targetPort:  4000
