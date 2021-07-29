@@ -1,0 +1,8 @@
+  # ReplicaSet Cmds reference
+   kubectl apply -f replica-sets.yaml
+   kubectl get rc,pods
+   kubetcl replace -f replica-sets.yaml
+   kubectl scale --replicas=4 replicaset myapp-replicaset
+   kubectl delete rc myapp-replicaset --cascade=false
+
+   
