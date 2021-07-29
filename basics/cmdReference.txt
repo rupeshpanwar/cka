@@ -1,3 +1,10 @@
+# POD
+Create an NGINX Pod
+kubectl run nginx --image=nginx
+
+Generate POD Manifest YAML file (-o yaml). Don't create it(--dry-run)
+kubectl run nginx --image=nginx --dry-run=client -o yaml
+
   # ReplicaSet Cmds reference
    kubectl apply -f replica-sets.yaml
    kubectl get rc,pods
@@ -5,4 +12,33 @@
    kubectl scale --replicas=4 replicaset myapp-replicaset
    kubectl delete rc myapp-replicaset --cascade=false
 
-   
+
+# Deployment
+Create a deployment
+kubectl create deployment --image=nginx nginx
+
+
+Generate Deployment YAML file (-o yaml). Don't create it(--dry-run)
+kubectl create deployment --image=nginx nginx --dry-run=client -o yaml
+
+
+Generate Deployment YAML file (-o yaml). Don't create it(--dry-run) with 4 Replicas (--replicas=4)
+kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-deployment.yaml
+
+# Deployment
+  kubectl apply -f basics/deploy-ments.yaml
+  kubectl get all
+  kubectl delete deploy nginx-deployment
+
+# Namespace
+  kubectl get ns
+  kubectl get pods --all-namespaces
+  kubectl get pods --namespace=kube-system
+  kubectl apply -f basics/name-space.yaml
+  kubectl run nginx --image=nginx --namespace=dev
+  kubectl apply -f basics/pod-namespace.yml
+  kubectl create ns prod
+  kubectl config set-context $(kubectl config current-context) --namespace=dev
+  kubectl apply -f basics/resource-quota.yml
+  kubectl apply -f basics/resource-quota.yml
+  kubectl delete ns prod
