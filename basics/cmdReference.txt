@@ -2,6 +2,8 @@
 Create an NGINX Pod
 kubectl run nginx --image=nginx
 
+kubectl get events | grep -i podName
+
 Generate POD Manifest YAML file (-o yaml). Don't create it(--dry-run)
 kubectl run nginx --image=nginx --dry-run=client -o yaml
 
@@ -17,6 +19,7 @@ kubectl run nginx --image=nginx --dry-run=client -o yaml
 Create a deployment
 kubectl create deployment --image=nginx nginx
 
+kubectl scale deployment blue --replicas=6
 
 Generate Deployment YAML file (-o yaml). Don't create it(--dry-run)
 kubectl create deployment --image=nginx nginx --dry-run=client -o yaml
@@ -60,3 +63,53 @@ kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-d
    effect: NoSchedule
    operator: Equal
 
+# Node selector and affinity
+  kubectl get nodes -o wide
+  kubectl describe node node01 | grep labels
+  kubectl describe node node01 | grep -i Labels
+  kubectl label nodes node01 color=blue
+  
+   kubectl create deploy blue --image=nginx --replicas=3
+   kubectl edit deployment blue
+
+  append below template.spec
+  affinity:
+     nodeAffinity:
+       requiredDuringSchedulingIgnoredDuringExecution:
+         nodeSelectorTerms:
+         - matchExpressions:
+           - key: node-role.kubernetes.io/master
+             operator: Exists
+  
+  append below template.spec          
+  affinity:
+    nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: color
+              operator: In
+              values:
+              - blue
+
+# Resource Limit and Requests
+kubectl describe pod rabbit
+
+resources:
+      limits:
+        cpu: "1"
+        memory: 512Mi
+      requests:
+        cpu: "1"
+        memory: 512Mi
+
+kubectl get events | grep nginx
+kubectl describe pod nginx | grep -i image
+kubectl describe pod nginx | grep IP:
+
+
+# DaemonSet
+kubectl get daemonsets --all-namespaces
+kubectl describe daemonset kube-proxy --namespace=kube-system
+kubectl describe daemonset kube-flannel-ds-amd64 --namespace=kube-system
+kubectl get pod -n kube-system|grep elasticsearch
