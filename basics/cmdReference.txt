@@ -42,3 +42,21 @@ kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-d
   kubectl apply -f basics/resource-quota.yml
   kubectl apply -f basics/resource-quota.yml
   kubectl delete ns prod
+
+  # Selector & Labels
+  kubectl get pods --selector name=myapp
+
+
+  # Taint and Tolerations
+  kubectl describe nodes node01 | grep Taints
+  kubectl taint nodes node01 spray=mortein:NoSchedule
+  kubectl taint nodes controlplane node-role.kubernetes.io/master:NoSchedule-
+
+
+  add below section to pod definition to apply taint n toleration
+  tolerations:
+ - key: spray
+   value: mortein
+   effect: NoSchedule
+   operator: Equal
+
